@@ -10,7 +10,7 @@ public class ArrayTaskList {
     public int getSize(){
         return size;
     }
-
+    // додає до арейліста
     public void add(Task task){
 
         if(size>=sizeofarray){
@@ -25,7 +25,7 @@ public class ArrayTaskList {
         size++;
 
     }
-
+    //видаляє
     public boolean remove(Task task){
         boolean g = false;
         for(int i = 0; i<size; i++){
@@ -50,7 +50,7 @@ public class ArrayTaskList {
     public Task getTask(int index){
         return array[index];
     }
-
+    //повертає проміжок
     public ArrayTaskList incoming(int from, int to) {
         ArrayTaskList Sometasks = new ArrayTaskList();
         for (int i = 0; i<size; i++) {
