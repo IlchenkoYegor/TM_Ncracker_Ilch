@@ -11,6 +11,9 @@ public class ArrayTaskList {
 
     // додає до арейліста
     public void add(Task task){
+        if( task == null){
+            throw new NullPointerException("the task can`t be null in method add\n");
+        }
         if(size>=sizeofarray){
             sizeofarray= (int)(sizeofarray*1.5)+1;
             Task []arrfortask = new Task[sizeofarray];
@@ -25,6 +28,9 @@ public class ArrayTaskList {
 
     //видаляє
     public boolean remove(Task task){
+        if(task == null){
+            throw new NullPointerException("removing of null-pointer object\n");
+        }
         boolean g = false;
         for(int i = 0; i<size; i++){
             if(array[i].equals(task)){
@@ -43,6 +49,9 @@ public class ArrayTaskList {
     }
 
     public Task getTask(int index){
+        if(index <0 || index > size){
+            throw new ArrayIndexOutOfBoundsException("method getTask negative or unexistable element of array were required\n");
+        }
         return array[index];
     }
 
