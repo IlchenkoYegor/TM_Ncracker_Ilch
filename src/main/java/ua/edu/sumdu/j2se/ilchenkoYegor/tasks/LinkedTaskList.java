@@ -3,7 +3,7 @@ package ua.edu.sumdu.j2se.ilchenkoYegor.tasks;
 
 
 public class LinkedTaskList {
-    public class LNode
+    private class LNode
     {
         public Task value;
         public LNode next;
