@@ -1,7 +1,5 @@
 package ua.edu.sumdu.j2se.ilchenkoYegor.tasks;
 
-import java.lang.reflect.Array;
-import java.math.*;
 public class ArrayTaskList {
     private int size;
     private int sizeofarray;
@@ -10,9 +8,9 @@ public class ArrayTaskList {
     public int getSize(){
         return size;
     }
+
     // додає до арейліста
     public void add(Task task){
-
         if(size>=sizeofarray){
             sizeofarray= (int)(sizeofarray*1.5)+1;
             Task []arrfortask = new Task[sizeofarray];
@@ -23,43 +21,39 @@ public class ArrayTaskList {
         }
         array[size] = task;
         size++;
-
     }
+
     //видаляє
     public boolean remove(Task task){
         boolean g = false;
         for(int i = 0; i<size; i++){
-
             if(array[i].equals(task)){
                 g = true;
                 size--;
                 for(;i<size; i++){
                     array[i] = array[i+1];
-
                 }
             }
-
-
         }
-
         return g;
     }
+
     public int size(){
         return size;
     }
+
     public Task getTask(int index){
         return array[index];
     }
+
     //повертає проміжок
     public ArrayTaskList incoming(int from, int to) {
-        ArrayTaskList Sometasks = new ArrayTaskList();
+        ArrayTaskList sometasks = new ArrayTaskList();
         for (int i = 0; i<size; i++) {
             if (array[i].nextTimeAfter(from) > 0 && array[i].nextTimeAfter(from) < to) {
-                Sometasks.add(array[i]);
+                sometasks.add(array[i]);
             }
-
-
         }
-        return Sometasks;
+        return sometasks;
     }
 }
