@@ -2,8 +2,8 @@ package ua.edu.sumdu.j2se.ilchenkoYegor.tasks;
 
 
 
-public class LinkedTaskList {
-    private class LNode
+public class LinkedTaskList extends AbstractTaskList{
+    public class LNode
     {
         public Task value;
         public LNode next;
@@ -14,11 +14,7 @@ public class LinkedTaskList {
     private LNode head;
     private int size;
     private LNode tale;
-
-    public int getSize(){
-        return size;
-    }
-
+    @Override
     // додає до арейліста
     public void add(Task task){
         if( task == null){
@@ -34,7 +30,7 @@ public class LinkedTaskList {
         }
         size++;
     }
-
+    @Override
     //видаляє
     public boolean remove(Task task){
         if(task == null){
@@ -48,29 +44,29 @@ public class LinkedTaskList {
             g = true;
         }
         else{
-        while(now.next!=tale && !g){
-            if(now.next.value.equals(task)){
-                now.next = now.next.next;
-                size--;
-                g = true;
+            while(now.next!=tale && !g){
+                if(now.next.value.equals(task)){
+                    now.next = now.next.next;
+                    size--;
+                    g = true;
+                }
+                now = now.next;
             }
-            now = now.next;
-        }
-        if(tale==now.next && tale.value.equals(task)){
-            g = true;
-            tale = now;
-            now.next = null;
-            size--;
-        }
+            if(tale==now.next && tale.value.equals(task)){
+                g = true;
+                tale = now;
+                now.next = null;
+                size--;
+            }
         }
 
         return g;
     }
-
+    @Override
     public int size(){
         return size;
     }
-
+    @Override
     public Task getTask(int index){
         if(index <0 || index > size){
             throw new ArrayIndexOutOfBoundsException("method getTask negative or unexistable element of array were required\n");
@@ -85,7 +81,7 @@ public class LinkedTaskList {
     }
 
     //повертає проміжок
-    public LinkedTaskList incoming(int from, int to) {
+ /*   public LinkedTaskList incoming(int from, int to) {
         LinkedTaskList sometasks = new LinkedTaskList();
         LNode now = head;
         while(now != tale.next) {
@@ -95,5 +91,5 @@ public class LinkedTaskList {
             now = now.next;
         }
         return sometasks;
-    }
+    }*/
 }

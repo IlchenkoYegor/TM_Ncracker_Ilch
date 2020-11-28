@@ -1,14 +1,14 @@
 package ua.edu.sumdu.j2se.ilchenkoYegor.tasks;
 
-public class ArrayTaskList {
+public class ArrayTaskList extends AbstractTaskList {
     private int size;
     private int sizeofarray;
     private Task []array;
-
-    public int getSize(){
+    @Override
+    public int size(){
         return size;
     }
-
+    @Override
     // додає до арейліста
     public void add(Task task){
         if( task == null){
@@ -25,7 +25,7 @@ public class ArrayTaskList {
         array[size] = task;
         size++;
     }
-
+    @Override
     //видаляє
     public boolean remove(Task task){
         if(task == null){
@@ -43,11 +43,7 @@ public class ArrayTaskList {
         }
         return g;
     }
-
-    public int size(){
-        return size;
-    }
-
+    @Override
     public Task getTask(int index){
         if(index <0 || index > size){
             throw new ArrayIndexOutOfBoundsException("method getTask negative or unexistable element of array were required\n");
@@ -56,7 +52,7 @@ public class ArrayTaskList {
     }
 
     //повертає проміжок
-    public ArrayTaskList incoming(int from, int to) {
+ /*   public ArrayTaskList incoming(int from, int to) {
         ArrayTaskList sometasks = new ArrayTaskList();
         for (int i = 0; i<size; i++) {
             if (array[i].nextTimeAfter(from) > 0 && array[i].nextTimeAfter(from) < to) {
@@ -64,5 +60,5 @@ public class ArrayTaskList {
             }
         }
         return sometasks;
-    }
+    }*/
 }
