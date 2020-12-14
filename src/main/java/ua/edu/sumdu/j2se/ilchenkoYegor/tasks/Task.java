@@ -1,8 +1,9 @@
 package ua.edu.sumdu.j2se.ilchenkoYegor.tasks;
 
+import java.util.Objects;
 import java.util.Scanner;
 
-public class Task {
+public class Task implements Cloneable{
     private String title;
     private int time;
     private int end;
@@ -131,5 +132,29 @@ public class Task {
     }
     public boolean isRepeated(){
         return isrepeated;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return time == task.time &&
+                end == task.end &&
+                start == task.start &&
+                interval == task.interval &&
+                isrepeated == task.isrepeated &&
+                activecond == task.activecond &&
+                title.equals(task.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, time, end, start, interval, isrepeated, activecond);
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

@@ -1,6 +1,11 @@
 package ua.edu.sumdu.j2se.ilchenkoYegor.tasks;
 
-public class ArrayTaskList extends AbstractTaskList {
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Objects;
+
+
+public class ArrayTaskList extends AbstractTaskList implements Cloneable {
     private int size;
     private int sizeofarray;
     private Task []array;
@@ -50,15 +55,75 @@ public class ArrayTaskList extends AbstractTaskList {
         }
         return array[index];
     }
-
-    //повертає проміжок
- /*   public ArrayTaskList incoming(int from, int to) {
-        ArrayTaskList sometasks = new ArrayTaskList();
-        for (int i = 0; i<size; i++) {
-            if (array[i].nextTimeAfter(from) > 0 && array[i].nextTimeAfter(from) < to) {
-                sometasks.add(array[i]);
+    @Override
+    public Iterator<Task> iterator(){
+        Iterator<Task> it = new Iterator<Task>() {
+            private int index = 0;
+            @Override
+            public boolean hasNext() {
+                return index < size;
             }
+
+            @Override
+            public Task next() {
+                if(!hasNext()){
+                    throw new IllegalArgumentException();
+                }
+                return array[index++];
+            }
+
+            @Override
+            public void remove(){
+                if(index == 0){
+                    throw new IllegalStateException();
+                }
+                ArrayTaskList.this.remove(array[--index]);
+            }
+        };
+        return it;
+    }
+
+    @Override
+    public ArrayTaskList clone() throws CloneNotSupportedException {
+        ArrayTaskList cl = (ArrayTaskList)super.clone();
+        cl.size-=size;
+        cl.sizeofarray-=sizeofarray;
+        for(int i = 0; i<size; i++) {
+            Task b = (Task)array[i].clone();
+            cl.add(b);
         }
-        return sometasks;
-    }*/
+        return cl;
+    }
+
+    @Override
+    public String toString() {
+        return "ArrayTaskList{" +
+                "size=" + size +
+                ", sizeofarray=" + sizeofarray +
+                ", array=" + Arrays.toString(array) +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ArrayTaskList that = (ArrayTaskList) o;
+        boolean ans = true;
+        for(int i = 0; i<size; i++){
+           if(!that.array[i].equals(array[i])){
+               ans = false;
+           }
+        }
+        return size == that.size &&
+                sizeofarray == that.sizeofarray &&
+                ans;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(size, sizeofarray);
+        result = 31 * result + Arrays.hashCode(array);
+        return result;
+    }
 }

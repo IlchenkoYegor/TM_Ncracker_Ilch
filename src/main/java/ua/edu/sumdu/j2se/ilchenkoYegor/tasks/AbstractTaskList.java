@@ -1,6 +1,6 @@
 package ua.edu.sumdu.j2se.ilchenkoYegor.tasks;
 
-public abstract class AbstractTaskList {
+public abstract class AbstractTaskList implements Iterable{
     abstract public int size();
     abstract public Task getTask(int index);
     abstract public void add(Task task);
