@@ -2,7 +2,10 @@ package ua.edu.sumdu.j2se.ilchenkoYegor.tasks;
 
 
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public class LinkedTaskList extends AbstractTaskList implements Cloneable{
     public class LNode
@@ -86,6 +89,11 @@ public class LinkedTaskList extends AbstractTaskList implements Cloneable{
         }
         return now.value;
     }
+    @Override
+    protected ListTypes.types getType(){
+        return ListTypes.types.LINKED;
+    }
+
     public Iterator<Task> iterator(){
         Iterator<Task> it = new Iterator<Task>() {
             private int index = 0;
@@ -155,5 +163,15 @@ public class LinkedTaskList extends AbstractTaskList implements Cloneable{
                 ", size=" + size +
                 ", tale=" + tale +
                 '}';
+    }
+
+    @Override
+    public Stream<Task> getStream(){
+        List<Task> list = new LinkedList();
+        Iterator<Task> it = iterator();
+        while(it.hasNext()){
+            list.add(it.next());
+        }
+        return list.stream();
     }
 }

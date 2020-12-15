@@ -1,8 +1,7 @@
 package ua.edu.sumdu.j2se.ilchenkoYegor.tasks;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Stream;
 
 
 public class ArrayTaskList extends AbstractTaskList implements Cloneable {
@@ -118,6 +117,19 @@ public class ArrayTaskList extends AbstractTaskList implements Cloneable {
         return size == that.size &&
                 sizeofarray == that.sizeofarray &&
                 ans;
+    }
+    @Override
+    protected ListTypes.types getType(){
+        return ListTypes.types.ARRAY;
+    }
+    @Override
+    public Stream<Task> getStream(){
+        List<Task> list = new ArrayList();
+        Iterator<Task> it = iterator();
+        while(it.hasNext()){
+            list.add(it.next());
+        }
+        return list.stream();
     }
 
     @Override
