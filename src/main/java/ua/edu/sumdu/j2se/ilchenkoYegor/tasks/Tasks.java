@@ -24,7 +24,6 @@ public class Tasks {
     }
 
     public static SortedMap<LocalDateTime, Set<Task>> calendar(Iterable<Task> tasks, LocalDateTime start, LocalDateTime end){
-
         SortedMap<LocalDateTime, Set<Task>> mapin = new TreeMap<LocalDateTime, Set<Task>>();
         Iterable<Task> inc =  incoming(tasks, start, end);
         Iterator<Task> it = inc.iterator();
@@ -45,7 +44,6 @@ public class Tasks {
                 }
             }
         }
-
 
         for(Map.Entry<LocalDateTime, Set<Task>> entry: mapin.entrySet()) {
             Iterator<Task> it1 = inc.iterator();
@@ -69,5 +67,4 @@ public class Tasks {
         }
         return mapin;
     }
-
 }
