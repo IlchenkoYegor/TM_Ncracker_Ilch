@@ -1,5 +1,6 @@
 package ua.edu.sumdu.j2se.ilchenkoYegor.tasks;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -12,9 +13,9 @@ public abstract class AbstractTaskList implements Iterable{
     abstract public Stream<Task> getStream();
     abstract protected ListTypes.types getType();
     protected ListTypes.types tasks = getType();
-    final public AbstractTaskList incoming(int from, int to){
+    final public AbstractTaskList incoming(LocalDateTime from, LocalDateTime to){
         AbstractTaskList sometasks = TaskListFactory.createTaskList(tasks);
-        List a = getStream().filter(c->(c.nextTimeAfter(from) >0 && c.nextTimeAfter(from)<to)).collect(Collectors.toList());
+        List a = getStream().filter(c->(c.isActive() && c.nextTimeAfter(from) != null && c.nextTimeAfter(from).isBefore(to) )).collect(Collectors.toList());
         int n = a.size();
         for(int i =0; i<n;i++) {
             sometasks.add((Task)a.get(i));
