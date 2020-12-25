@@ -1,11 +1,12 @@
 package ua.edu.sumdu.j2se.ilchenkoYegor.tasks;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class AbstractTaskList implements Iterable{
+public abstract class AbstractTaskList implements Iterable, Serializable {
     abstract public int size();
     abstract public Task getTask(int index);
     abstract public void add(Task task);

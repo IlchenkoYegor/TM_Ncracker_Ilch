@@ -1,9 +1,10 @@
 package ua.edu.sumdu.j2se.ilchenkoYegor.tasks;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Task implements Cloneable{
+public class Task implements Cloneable, Serializable {
     private String title;
     private LocalDateTime time;
     private LocalDateTime end;
@@ -35,16 +36,18 @@ public class Task implements Cloneable{
 
     public void setTime(LocalDateTime time) throws NullPointerException{
         if(time == null) {
-            throw new IllegalArgumentException("Negative values in method setTime\n");
+            throw new IllegalArgumentException("Negative values in method setTime(time)\n");
         }
 
         if(isRepeated()){
             isrepeated = false;
+            this.interval = 0;
+
             this.start = null;
             this.end = null;
-            this.interval = 0;
         }
         this.time = cloneTime(time);
+
     }
 
     public LocalDateTime getStartTime(){
@@ -66,7 +69,7 @@ public class Task implements Cloneable{
 
     public void setTime(LocalDateTime start, LocalDateTime end, int interval){
         if(start == null || end == null || interval <= 0){
-            throw new IllegalArgumentException("Negative values in method setTime\n");
+            throw new IllegalArgumentException("Negative values in method setTime(Interval)\n");
         }
         this.start = cloneTime(start);
         this.end = cloneTime(end);
@@ -82,15 +85,12 @@ public class Task implements Cloneable{
             if(!isActive()){
                 return null;
             }
-
             if (current.isAfter(getEndTime())||current.isEqual(getEndTime())) {
             return null;
             }
-
             if(!isRepeated()) {
                 return time;
             }
-
             if(current.isBefore(getStartTime())){
                 return start;
             }
@@ -164,5 +164,8 @@ public class Task implements Cloneable{
         }
         Task a = new Task(this.title,this.getStartTime(),this.getEndTime(), this.interval);
         return a;
+    }
+    Task(){
+
     }
 }
