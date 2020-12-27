@@ -55,33 +55,19 @@ public class TaskIO {
         }
 
     }
-    public static void writeBinary(AbstractTaskList tasks, File file) throws FileNotFoundException{
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            try {
-                write(tasks, out);
-                out.close();
-            }catch (IOException e){
-                System.out.println("I/O ERROR");
-            }
-
-
-        }finally{
-
+    public static void writeBinary(AbstractTaskList tasks, File file) throws FileNotFoundException {
+        try (FileOutputStream out = new FileOutputStream(file)) {
+            write(tasks, out);
+        } catch (IOException e) {
+            System.out.println("I/O ERROR");
         }
     }
 
     public static void readBinary(AbstractTaskList tasks, File file)    throws FileNotFoundException{
-        try {
-            FileInputStream in = new FileInputStream(file);
-            try {
-                read(tasks, in);
-                in.close();
-            }catch (IOException e){
-                System.out.println("I/O ERROR");
-            }
-        }finally{
-
+        try (FileInputStream in = new FileInputStream(file)){
+            read(tasks, in);
+        }catch (IOException e){
+            System.out.println("I/O ERROR");
         }
     }
     public static void write(AbstractTaskList tasks, Writer out) throws IOException{
@@ -102,30 +88,17 @@ public class TaskIO {
         }
     }
     public static void writeText(AbstractTaskList tasks, File file) throws  FileNotFoundException, IOException {
-        try {
-            FileWriter out = new FileWriter(file);
-            try {
-                write(tasks, out);
-                out.close();
-            }catch (IOException e){
+        try (FileWriter out = new FileWriter(file)) {
+            write(tasks, out);
+        }catch (IOException e){
                 System.out.println("I/O ERROR");
-            }
-
-
-        }finally{
         }
     }
     public static void readText(AbstractTaskList tasks, File file) throws FileNotFoundException{
-        try {
-            FileReader in = new FileReader(file);
-            try {
-                read(tasks, in);
-                in.close();
-            }catch (IOException e){
-                System.out.println("I/O ERROR");
-            }
-        }finally{
-
+        try (FileReader in = new FileReader(file)){
+            read(tasks, in);
+        }catch (IOException e){
+            System.out.println("I/O ERROR");
         }
     }
 }
