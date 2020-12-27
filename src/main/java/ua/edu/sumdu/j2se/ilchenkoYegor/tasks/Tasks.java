@@ -1,15 +1,9 @@
 package ua.edu.sumdu.j2se.ilchenkoYegor.tasks;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.*;
 
 public class Tasks {
-    public static Date convertToDateViaInstant(LocalDateTime dateToConvert) {
-        return java.util.Date
-                .from(dateToConvert.atZone(ZoneId.systemDefault())
-                        .toInstant());
-    }
 
     public static Iterable<Task> incoming (Iterable<Task> tasks, LocalDateTime start, LocalDateTime end){
         AbstractTaskList a = TaskListFactory.createTaskList(ListTypes.types.ARRAY);
