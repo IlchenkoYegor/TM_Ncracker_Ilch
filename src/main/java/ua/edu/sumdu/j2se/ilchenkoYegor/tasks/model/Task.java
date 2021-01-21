@@ -1,4 +1,4 @@
-package ua.edu.sumdu.j2se.ilchenkoYegor.tasks;
+package ua.edu.sumdu.j2se.ilchenkoYegor.tasks.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -134,6 +134,20 @@ public class Task implements Cloneable, Serializable {
     public boolean isRepeated(){
         return isrepeated;
     }
+
+ /*   @Override
+    public String toString() {
+        return "Task{" +
+                "title='" + title + '\'' +
+                ", time=" + time +
+                ", end=" + end +
+                ", start=" + start +
+                ", interval=" + interval +
+                ", isrepeated=" + isrepeated +
+                ", activecond=" + activecond +
+                '}';
+    }*/
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

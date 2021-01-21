@@ -1,4 +1,4 @@
-package ua.edu.sumdu.j2se.ilchenkoYegor.tasks;
+package ua.edu.sumdu.j2se.ilchenkoYegor.tasks.model;
 
 
 import java.util.Iterator;
@@ -25,7 +25,7 @@ public class LinkedTaskList extends AbstractTaskList implements Cloneable{
     // додає до арейліста
     public void add(Task task){
         if( task == null){
-            throw new NullPointerException("the task can`t be null in method add\n");
+            throw new NullPointerException("the task can`t be null in method AddTask\n");
         }
         if(size == 0){
             head = new LNode(task);
