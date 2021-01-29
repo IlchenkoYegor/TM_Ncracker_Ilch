@@ -1,5 +1,8 @@
 package ua.edu.sumdu.j2se.ilchenkoYegor.tasks.model;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -15,7 +18,7 @@ public class Task implements Cloneable, Serializable {
     public void setActive(boolean active){
         activecond = active;
     }
-
+    private static final Logger taskLogger = LogManager.getLogger(Task.class.getName());
     public String getTitle(){
         return title;
     }
@@ -36,6 +39,7 @@ public class Task implements Cloneable, Serializable {
 
     public void setTime(LocalDateTime time) throws NullPointerException{
         if(time == null) {
+            taskLogger.error("Negative values in method setTime(time)");
             throw new IllegalArgumentException("Negative values in method setTime(time)\n");
         }
 
@@ -69,6 +73,7 @@ public class Task implements Cloneable, Serializable {
 
     public void setTime(LocalDateTime start, LocalDateTime end, int interval){
         if(start == null || end == null || interval <= 0){
+            taskLogger.error("Negative values in method setTime(Interval)");
             throw new IllegalArgumentException("Negative values in method setTime(Interval)\n");
         }
         this.start = cloneTime(start);
@@ -80,6 +85,7 @@ public class Task implements Cloneable, Serializable {
 
     public LocalDateTime nextTimeAfter(LocalDateTime current){
             if(current == null){
+                taskLogger.error("the current time can`t be negative (method nextTimeafter)");
                 throw new IllegalArgumentException("the current time can`t be negative (method nextTimeafter)\n");
             }
             if(!isActive()){
@@ -97,7 +103,8 @@ public class Task implements Cloneable, Serializable {
             else{
                 LocalDateTime thenexttime = cloneTime(start);
                 while(thenexttime.isBefore(current)|| thenexttime.isEqual(current)){
-                    thenexttime = thenexttime.plusSeconds(interval);
+                    //thenexttime = thenexttime.plusSeconds(interval);
+                    thenexttime = thenexttime.plusMinutes(interval);
                 }
                 if(thenexttime.isAfter(end)){
                     return null;
@@ -120,9 +127,11 @@ public class Task implements Cloneable, Serializable {
     }
     public Task(String title, LocalDateTime time){
         if(time == null){
+            taskLogger.error("time cannot be null, invalid constructor\n");
             throw new IllegalArgumentException();
         }
         if(title == null){
+            taskLogger.error("title cannot be null, invalid constructor\n");
             throw new IllegalArgumentException();
         }
         this.title = title;

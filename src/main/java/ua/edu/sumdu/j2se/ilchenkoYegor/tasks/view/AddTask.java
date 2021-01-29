@@ -55,11 +55,11 @@ public class AddTask extends JDialog {
                     ErrorDialog err = new ErrorDialog(ex);
                     err.pack();
                     err.setVisible(true);
-                    addTaskDialogLog.error("while adding task in calendar occured" + ex.getMessage());
+                    addTaskDialogLog.error("while adding task in calendar occured", ex);
                 }
                 catch (IllegalArgumentException ex){
                     //log4j..
-                    addTaskDialogLog.error("while adding task in calendar occured" + ex.getMessage());
+                    addTaskDialogLog.error("while adding task in calendar occured", ex);
                     ErrorDialog err = new ErrorDialog(ex);
                     err.pack();
                     err.setVisible(true);
@@ -109,7 +109,7 @@ public class AddTask extends JDialog {
             if (starttime.equals("") || endtime.equals("")) {
                 throw new IllegalArgumentException();
             }
-            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss").withResolverStyle(ResolverStyle.STRICT);
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("uuuu.MM.dd' 'HH:mm").withResolverStyle(ResolverStyle.STRICT);
             lastTask = new Task(name, LocalDateTime.parse(starttime, fmt), LocalDateTime.parse(endtime, fmt), Integer.parseInt(interval));
             lastTask.setActive(true);
             model.adderOfTask(lastTask);

@@ -30,7 +30,8 @@ public class Tasks {
                         mapin.put(curr, new HashSet<Task>());
                         //System.out.println(curr);
                     }
-                    curr = curr.plusSeconds(b.getRepeatInterval());
+                    //curr = curr.plusSeconds(b.getRepeatInterval());
+                    curr = curr.plusMinutes(b.getRepeatInterval());
                 }
             }
             else{
@@ -50,7 +51,7 @@ public class Tasks {
                         if (entry.getKey().equals(curr)) {
                             entry.getValue().add(c);
                         }
-                        curr = curr.plusSeconds(c.getRepeatInterval());
+                        curr = curr.plusMinutes(c.getRepeatInterval());
                     }
                 }
                 else{

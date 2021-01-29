@@ -70,21 +70,13 @@ public class ControllerTask {
         try {
             calendar = new TaskCalendar(model);
         }catch (IOException e){
-            controllerLog.error(e + "occured when calendar have been tried to be created " + e.getStackTrace());
+            controllerLog.error(e + "occured when calendar have been tried to be created ", e);
             //log4j..
         }
         m_view.callendarOpenListener(new CalendarOpenListener());
         calendar.addTaskListener(new AddTaskCalendarListener());
         calendar.backFromCalendarListener(new BackCalendarListener());
-        try {
-            calendar.searchTimeListener(new SearchTasks());
-        }
-        catch(IllegalArgumentException e){
-            controllerLog.error(e + "occured when listener for searching have been tried to be created " + e.getStackTrace());
-            ErrorDialog errorDialog = new ErrorDialog(e);
-            errorDialog.pack();
-            errorDialog.setVisible(true);
-        }
+        calendar.searchTimeListener(new SearchTasks());
         calendar.deleteTaskListener(new DeleteTasksFCListener());
         m_view.exitListener(new ExitProgram());
         calendar.setApplyChangesButton(new ApplyChanger());
@@ -160,10 +152,6 @@ public class ControllerTask {
                 deleteSelectedTasks();
                 updateCalendar();
             }
-            if(rc == 1){
-
-            }
-
         }
     }
     class EditTasksFCListener implements ActionListener{
@@ -230,25 +218,30 @@ public class ControllerTask {
 
     class SearchTasks implements ActionListener{
         public void actionPerformed(ActionEvent e){
-               String start = calendar.getStartC();
-               String end = calendar.getEndC();
-               if(!end.equals("") && !start.equals("")){
-                   DateTimeFormatter fmt = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss").withResolverStyle(ResolverStyle.STRICT);
-                   try {
-                       modelTask.setStartTime(LocalDateTime.parse(start, fmt));
-                       modelTask.setEndTime(LocalDateTime.parse(end, fmt));
-                       calendar.setTextForCInc(start, end);
-                   }catch (DateTimeParseException err){
-                       ErrorDialog errorDialog = new ErrorDialog(err);
-                       errorDialog.pack();
-                       errorDialog.setVisible(true);
-                       controllerLog.error("Consumer`s input was invalid");
-                   }
-                   calendar.showIncomingTasks();
-               }
-               else{
-                   throw new IllegalArgumentException();
-               }
+                try {
+                    String start = calendar.getStartC();
+                    String end = calendar.getEndC();
+
+                    if ((!end.equals("") && !start.equals(""))) {
+                        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("uuuu.MM.dd' 'HH:mm").withResolverStyle(ResolverStyle.STRICT);
+                        try {
+                            modelTask.setStartTime(LocalDateTime.parse(start, fmt));
+                            modelTask.setEndTime(LocalDateTime.parse(end, fmt));
+                            calendar.setTextForCInc(start, end);
+                        } catch (DateTimeParseException ex) {
+                            controllerLog.error("Consumer`s input was invalid");
+                        }
+                        calendar.showIncomingTasks();
+                    } else {
+                        throw new IllegalArgumentException();
+                    }
+                }catch(IllegalArgumentException ex){
+                    calendar.showAllTasks();
+                    controllerLog.error(ex + " was occured when listener for searching have been tried to be created ", ex);
+                    ErrorDialog errorDialog = new ErrorDialog(ex);
+                    errorDialog.pack();
+                    errorDialog.setVisible(true);
+                }
         }
     }
     class ApplyChanger implements ActionListener {

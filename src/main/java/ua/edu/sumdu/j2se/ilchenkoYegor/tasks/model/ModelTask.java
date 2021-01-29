@@ -20,6 +20,7 @@ public class ModelTask {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private EventManager event;
+    private final String PATHNAME = "./src/main/java/ua/edu/sumdu/j2se/ilchenkoYegor/tasks/bin/savedtasks.txt";
     private TimerTask activeResponse =  new TimerTask(){
         @Override
         public void run() {
@@ -54,14 +55,14 @@ public class ModelTask {
         if(currTasks == null){
             currTasks = TaskListFactory.createTaskList(ListTypes.types.ARRAY);
         }
-        File inputTasks  = new File("./src/main/java/ua/edu/sumdu/j2se/ilchenkoYegor/tasks/bin/savedtasks.txt");
+        File inputTasks  = new File(PATHNAME);
 
         try {
             TaskIO.readBinary(currTasks, inputTasks);
         }
         catch (FileNotFoundException e){
             // add logger
-            modelTaskLog.error("Try to open unexistable file");
+            modelTaskLog.error("Try to open unexistable file", e);
         }
 
     }
@@ -77,19 +78,19 @@ public class ModelTask {
             } catch (Exception e)
             {
 
-               modelTaskLog.error("Error in file cleaning: " + e.getMessage());
+               modelTaskLog.error("Error in file cleaning: ", e);
             }
     }
 
     public void end(){
-        File outputTasks  = new File("./src/main/java/ua/edu/sumdu/j2se/ilchenkoYegor/tasks/bin/savedtasks.txt");
+        File outputTasks  = new File(PATHNAME);
         clearFile(outputTasks);
         try {
             TaskIO.writeBinary(currTasks, outputTasks);
             event.notify(getCalendarFromCurrentTime());
         }
         catch (FileNotFoundException e){
-            modelTaskLog.error("Try to find file in end(): " + e.getMessage() + e.getStackTrace());
+            modelTaskLog.error("Try to find file in end(): ", e);
             // add logger
         }
     }

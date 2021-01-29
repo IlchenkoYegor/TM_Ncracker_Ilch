@@ -15,7 +15,7 @@ public class ErrorDialog extends JDialog {
         errorPane = new JPanel();
         errorPane.setLayout(new BorderLayout());
         JButton buttonInnerOk = new JButton("OK");
-        String error = "the Error " + ex + " were occured, try to change the input data";
+        String error = "the Error with input data were occured! Try to change it";
         JLabel labelOfError = new JLabel(error);
         errorPane.add(labelOfError, BorderLayout.NORTH);
         errorPane.add(buttonInnerOk, BorderLayout.SOUTH);

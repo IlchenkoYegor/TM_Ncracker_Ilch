@@ -1,12 +1,14 @@
 package ua.edu.sumdu.j2se.ilchenkoYegor.tasks.view;
 
-import ua.edu.sumdu.j2se.ilchenkoYegor.tasks.model.Task;
 import ua.edu.sumdu.j2se.ilchenkoYegor.tasks.model.ModelTask;
+import ua.edu.sumdu.j2se.ilchenkoYegor.tasks.model.Task;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 import java.util.Set;
 
 public class NotifyToDoDialog extends JDialog {
@@ -57,7 +59,8 @@ public class NotifyToDoDialog extends JDialog {
             modeloflist.addElement(toShow);
             //System.out.println(toShow);
             if(a.getRepeatInterval()>0 && !LocalDateTime.now().isAfter(a.getEndTime())) {
-                String opt = "The next time you`ll see the message with this task at " + LocalDateTime.now().plusSeconds(a.getRepeatInterval()) + ". Hurry up!";
+                DateTimeFormatter fmt = DateTimeFormatter.ofPattern("uuuu.MM.dd' 'HH:mm").withResolverStyle(ResolverStyle.STRICT);
+                String opt = "The next time you`ll see the message with this task at " + LocalDateTime.now().plusSeconds(a.getRepeatInterval()).format(fmt) + ". Hurry up!";
                 modeloflist.addElement(opt);
             }
 

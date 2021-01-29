@@ -23,6 +23,7 @@ public class EditTaskDialog extends JDialog {
     private JTextField textEndT;
     private JCheckBox yesCheckBox;
     private ModelTask model;
+    private final String ERROR_PARSE = "handled Error with time parse occured in editTimeDialog ";
     private static final Logger editTaskDialogLog = LogManager.getLogger(EditTaskDialog.class.getName());
     private void checkTheInput(){
         if(!textNameT.getText().equals("") && !textStartT.getText().equals("")){
@@ -37,12 +38,13 @@ public class EditTaskDialog extends JDialog {
         setContentPane(contentPane);
         setLocation(700, 350);
         setPreferredSize(new Dimension(600, 300));
-        buttonOK.setEnabled(false);
         setModal(true);
-        textStartT.setText(editingTask.getStartTime().toString());
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("uuuu.MM.dd' 'HH:mm").withResolverStyle(ResolverStyle.STRICT);
+        textStartT.setText(editingTask.getStartTime().format(fmt));
         textNameT.setText(editingTask.getTitle());
-        textEndT.setText(editingTask.getEndTime().toString());
+        textEndT.setText(editingTask.getEndTime().format(fmt));
         textInterval.setText(Integer.toString(editingTask.getRepeatInterval()));
+        checkTheInput();
         if(editingTask.isActive()) {
             yesCheckBox.setSelected(true);
         }
@@ -53,14 +55,14 @@ public class EditTaskDialog extends JDialog {
                     try{
                         onOK(editingTask);
                     }catch (DateTimeParseException ex){
-                        editTaskDialogLog.error("handled Error with time parse occured in editTimeDialog " + ex.getMessage());
+                        editTaskDialogLog.error(ERROR_PARSE , ex);
                         ErrorDialog err = new ErrorDialog(ex);
                         err.pack();
                         err.setVisible(true);
                     }
                     catch (IllegalArgumentException ex){
                         //log4j..
-                        editTaskDialogLog.error("handled Error with arguments occured in editTimeDialog " + ex.getMessage());
+                        editTaskDialogLog.error(ERROR_PARSE, ex);
                         ErrorDialog err = new ErrorDialog(ex);
                         err.pack();
                         err.setVisible(true);
@@ -116,7 +118,7 @@ public class EditTaskDialog extends JDialog {
             if (starttime.equals("") || endtime.equals("")) {
                 throw new IllegalArgumentException();
             }
-            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss").withResolverStyle(ResolverStyle.STRICT);
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("uuuu.MM.dd' 'HH:mm").withResolverStyle(ResolverStyle.STRICT);
             Task lastTask = new Task(name, LocalDateTime.parse(starttime, fmt), LocalDateTime.parse(endtime, fmt), Integer.parseInt(interval));
             if(yesCheckBox.isSelected()) {
                 lastTask.setActive(true);

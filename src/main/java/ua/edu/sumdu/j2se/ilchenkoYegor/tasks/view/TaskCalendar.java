@@ -14,6 +14,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 import java.util.Iterator;
 
 public class TaskCalendar extends JFrame{
@@ -34,11 +36,12 @@ public class TaskCalendar extends JFrame{
     private ModelTask m_model;
     private int indexOfLastEl = 0;
     private TrayIcon trayIcon;
+    private final String PATH_TO_IMAGE = "./src/main/java/ua/edu/sumdu/j2se/ilchenkoYegor/tasks/bin/trayIcon.jpg";
     private SystemTray systemTray = SystemTray.getSystemTray();
     private boolean firstinc;
     private static final Logger calendarLogger = LogManager.getLogger(TaskCalendar.class.getName());
     public TaskCalendar(ModelTask model) throws IOException {
-        trayIcon = new TrayIcon(ImageIO.read(new File("./src/main/java/ua/edu/sumdu/j2se/ilchenkoYegor/tasks/bin/trayIcon.jpg")), "Your Tasks are here!");
+        trayIcon = new TrayIcon(ImageIO.read(new File(PATH_TO_IMAGE)), "Your Tasks are here!");
         modelWithtasks = (DefaultListModel)list1.getModel();
         setLocation(500, 350);
         setPreferredSize(new Dimension(1200, 600));
@@ -73,7 +76,7 @@ public class TaskCalendar extends JFrame{
             catch(AWTException ex)
             {
                 calendarLogger.error("AWT exception in addTr method (it work with adding to tray) ");
-                calendarLogger.trace(ex);
+                calendarLogger.error(ex);
             }
         }
     }
@@ -84,6 +87,7 @@ public class TaskCalendar extends JFrame{
         deleteButton.addActionListener(e);
     }
     public void setTextForCInc(String incomingInfoStart, String incomingInfoEnd){
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("uuuu.MM.dd' 'HH:mm").withResolverStyle(ResolverStyle.STRICT);
         Labelforcurrent.setText("Current Interval: " + incomingInfoStart + "  --------------  " + incomingInfoEnd);
     }
     public void editTaskListener(ActionListener e){
@@ -155,12 +159,11 @@ public class TaskCalendar extends JFrame{
     }
     public void showDetailInfo(int index, Task toShow){
         modelWithtasks.removeElementAt(index);
-
-
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("uuuu.MM.dd' 'HH:mm").withResolverStyle(ResolverStyle.STRICT);
         modelWithtasks.add(index, Integer.toString(index+1) + ".Name: \""+toShow.getTitle()
-                +"\". Time of start: "+ toShow.getStartTime().toString()+". Time of end: "
-                +toShow.getEndTime().toString()+ ". Repeating interval(sec) : "
-                +Integer.toString(toShow.getRepeatInterval()) + (toShow.isActive()?". Is active.": ". Is not active.")+"");
+                +"\". Time of start: "+ toShow.getStartTime().format(fmt) + (toShow.isRepeated()? ". Time of end: "
+                + toShow.getEndTime().format(fmt)+ ". Repeating interval(min) : "
+                +Integer.toString(toShow.getRepeatInterval()):("")) + (toShow.isActive()?". Is active.": ". Is not active.")+"");
         validate();
     }
 }
