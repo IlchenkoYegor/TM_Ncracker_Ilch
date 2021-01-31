@@ -96,10 +96,11 @@ public class AddTask extends JDialog {
         String interval = textInterval2.getText();
         if(interval.equals("") || interval.equals("0")){
             String time = textBegin.getText();
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("uuuu.MM.dd' 'HH:mm").withResolverStyle(ResolverStyle.STRICT);
             if(time.equals("")){
                 throw new IllegalArgumentException();
             }
-            lastTask = new Task(name, LocalDateTime.parse(time));
+            lastTask = new Task(name, LocalDateTime.parse(time, fmt));
             lastTask.setActive(true);
             model.adderOfTask(lastTask);
         }

@@ -102,10 +102,11 @@ public class EditTaskDialog extends JDialog {
         String interval = textInterval.getText();
         if(interval.equals("") || interval.equals("0")) {
             String time = textStartT.getText();
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("uuuu.MM.dd' 'HH:mm").withResolverStyle(ResolverStyle.STRICT);
             if (time.equals("")) {
                 throw new IllegalArgumentException();
             }
-            Task lastTask = new Task(name, LocalDateTime.parse(time));
+            Task lastTask = new Task(name, LocalDateTime.parse(time, fmt));
             if (yesCheckBox.isSelected()) {
                 lastTask.setActive(true);
             }
