@@ -1,4 +1,7 @@
-package ua.edu.sumdu.j2se.ilchenkoYegor.tasks;
+package ua.edu.sumdu.j2se.ilchenkoYegor.tasks.model;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -8,6 +11,7 @@ public class ArrayTaskList extends AbstractTaskList implements Cloneable {
     private int size;
     private int sizeofarray;
     private Task []array;
+    private static final Logger arrayTaskListLog = LogManager.getLogger(ArrayTaskList.class.getName());
     @Override
     public int size(){
         return size;
@@ -16,7 +20,8 @@ public class ArrayTaskList extends AbstractTaskList implements Cloneable {
     // додає до арейліста
     public void add(Task task){
         if( task == null){
-            throw new NullPointerException("the task can`t be null in method add\n");
+            arrayTaskListLog.error("Were tried to add null Task in AddTask");
+            throw new NullPointerException("the task can`t be null in method AddTask\n");
         }
         if(size>=sizeofarray){
             sizeofarray= (int)(sizeofarray*1.5)+1;
@@ -33,6 +38,7 @@ public class ArrayTaskList extends AbstractTaskList implements Cloneable {
     //видаляє
     public boolean remove(Task task){
         if(task == null){
+            arrayTaskListLog.error("Were tried to remove null Task in AddTask");
             throw new NullPointerException("removing of null-pointer object\n");
         }
         boolean g = false;
@@ -50,6 +56,7 @@ public class ArrayTaskList extends AbstractTaskList implements Cloneable {
     @Override
     public Task getTask(int index){
         if(index <0 || index > size){
+            arrayTaskListLog.error("method getTask: negative or unexistable element of array were required");
             throw new ArrayIndexOutOfBoundsException("method getTask negative or unexistable element of array were required\n");
         }
         return array[index];
@@ -66,6 +73,7 @@ public class ArrayTaskList extends AbstractTaskList implements Cloneable {
             @Override
             public Task next() {
                 if(!hasNext()){
+                    arrayTaskListLog.error("tried to reach unexistable next element");
                     throw new IllegalArgumentException();
                 }
                 return array[index++];
@@ -74,6 +82,7 @@ public class ArrayTaskList extends AbstractTaskList implements Cloneable {
             @Override
             public void remove(){
                 if(index == 0){
+                    arrayTaskListLog.error("tried to delete unhandled element");
                     throw new IllegalStateException();
                 }
                 ArrayTaskList.this.remove(array[--index]);
@@ -138,4 +147,6 @@ public class ArrayTaskList extends AbstractTaskList implements Cloneable {
         result = 31 * result + Arrays.hashCode(array);
         return result;
     }
+
+
 }

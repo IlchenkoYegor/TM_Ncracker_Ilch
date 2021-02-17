@@ -1,4 +1,4 @@
-package ua.edu.sumdu.j2se.ilchenkoYegor.tasks;
+package ua.edu.sumdu.j2se.ilchenkoYegor.tasks.model;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -10,7 +10,7 @@ public class Tasks {
         Iterator<Task> it = tasks.iterator();
         while(it.hasNext()) {
             Task b = it.next();
-            if ((b.nextTimeAfter(start) != null && !b.nextTimeAfter(start).isAfter(end))) {
+            if ((b.nextTimeAfter(start) != null && !b.nextTimeAfter(start).isAfter(end) && b.isActive())) {
                 a.add(b);
             }
         }
@@ -25,11 +25,13 @@ public class Tasks {
             Task b = it.next();
             LocalDateTime curr = b.nextTimeAfter(start);
             if(b.isRepeated()) {
-                while (!curr.isAfter(end)) {
+                while (!curr.isAfter(b.getEndTime())&& !curr.isAfter(end)) {
                     if(!mapin.containsKey(curr)) {
                         mapin.put(curr, new HashSet<Task>());
+                        //System.out.println(curr);
                     }
-                    curr = curr.plusSeconds(b.getRepeatInterval());
+                    //curr = curr.plusSeconds(b.getRepeatInterval());
+                    curr = curr.plusMinutes(b.getRepeatInterval());
                 }
             }
             else{
@@ -45,11 +47,11 @@ public class Tasks {
                 Task c = it1.next();
                 if (c.isRepeated()) {
                     LocalDateTime curr = c.nextTimeAfter(start);
-                    while (!curr.isAfter(end)) {
+                    while (!curr.isAfter(c.getEndTime()) && !curr.isAfter(end)) {
                         if (entry.getKey().equals(curr)) {
                             entry.getValue().add(c);
                         }
-                        curr = curr.plusSeconds(c.getRepeatInterval());
+                        curr = curr.plusMinutes(c.getRepeatInterval());
                     }
                 }
                 else{

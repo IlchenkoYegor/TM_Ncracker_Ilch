@@ -1,6 +1,9 @@
-package ua.edu.sumdu.j2se.ilchenkoYegor.tasks;
+package ua.edu.sumdu.j2se.ilchenkoYegor.tasks.model;
 
 import com.google.gson.Gson;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import ua.edu.sumdu.j2se.ilchenkoYegor.tasks.view.ErrorDialog;
 
 import java.io.*;
 import java.time.Instant;
@@ -9,7 +12,10 @@ import java.time.ZoneId;
 import java.util.Iterator;
 
 
+
 public class TaskIO {
+    private static final Logger logIO = LogManager.getLogger(TaskIO.class.getName());
+
     public static void write(AbstractTaskList tasks, OutputStream out) throws IOException{
         DataOutput output = new DataOutputStream(out);
         Iterator<Task> it = tasks.iterator();
@@ -59,7 +65,11 @@ public class TaskIO {
         try (FileOutputStream out = new FileOutputStream(file)) {
             write(tasks, out);
         } catch (IOException e) {
-            System.out.println("I/O ERROR");
+            logIO.error("I/O ERROR while writing binary");
+            ErrorDialog err = new ErrorDialog(e);
+            err.pack();
+            err.setVisible(true);
+            System.exit(0);
         }
     }
 
@@ -67,7 +77,7 @@ public class TaskIO {
         try (FileInputStream in = new FileInputStream(file)){
             read(tasks, in);
         }catch (IOException e){
-            System.out.println("I/O ERROR");
+            logIO.error("I/O ERROR while reading binary");
         }
     }
     public static void write(AbstractTaskList tasks, Writer out) throws IOException{
@@ -91,14 +101,14 @@ public class TaskIO {
         try (FileWriter out = new FileWriter(file)) {
             write(tasks, out);
         }catch (IOException e){
-                System.out.println("I/O ERROR");
+            logIO.error("I/O ERROR while writing string");
         }
     }
     public static void readText(AbstractTaskList tasks, File file) throws FileNotFoundException{
         try (FileReader in = new FileReader(file)){
             read(tasks, in);
         }catch (IOException e){
-            System.out.println("I/O ERROR");
+            logIO.error("I/O ERROR while reading string");
         }
     }
 }
