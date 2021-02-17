@@ -4,6 +4,7 @@ package ua.edu.sumdu.j2se.ilchenkoYegor.tasks.model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.edu.sumdu.j2se.ilchenkoYegor.tasks.Notificator.EventManager;
+import ua.edu.sumdu.j2se.ilchenkoYegor.tasks.view.ErrorDialog;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -62,6 +63,10 @@ public class ModelTask {
         }
         catch (FileNotFoundException e){
             // add logger
+            ErrorDialog err = new ErrorDialog(e);
+            err.pack();
+            err.setVisible(true);
+            System.exit(0);
             modelTaskLog.error("Try to open unexistable file", e);
         }
 
@@ -90,6 +95,10 @@ public class ModelTask {
             event.notify(getCalendarFromCurrentTime());
         }
         catch (FileNotFoundException e){
+            ErrorDialog err = new ErrorDialog(e);
+            err.pack();
+            err.setVisible(true);
+            System.exit(0);
             modelTaskLog.error("Try to find file in end(): ", e);
             // add logger
         }

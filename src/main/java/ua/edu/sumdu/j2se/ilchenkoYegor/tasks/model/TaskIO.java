@@ -3,6 +3,7 @@ package ua.edu.sumdu.j2se.ilchenkoYegor.tasks.model;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ua.edu.sumdu.j2se.ilchenkoYegor.tasks.view.ErrorDialog;
 
 import java.io.*;
 import java.time.Instant;
@@ -65,6 +66,10 @@ public class TaskIO {
             write(tasks, out);
         } catch (IOException e) {
             logIO.error("I/O ERROR while writing binary");
+            ErrorDialog err = new ErrorDialog(e);
+            err.pack();
+            err.setVisible(true);
+            System.exit(0);
         }
     }
 
